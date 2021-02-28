@@ -1,0 +1,44 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %}Social Network{% endblock %}</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link href="{% static 'network/styles.css' %}" rel="stylesheet">
+        <script src="https://kit.fontawesome.com/5fab8c6ecf.js" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row mx-0 justify-content-center">
+                <div class="text-center col-6">
+                    <i class="fa fa-sign-in fa-3x p-4" aria-hidden="true" style="color: #1DA1F2;"></i>
+                    <h3>Login</h3>
+        
+                    {% if message %}
+                        <div>{{ message }}</div>
+                    {% endif %}
+                    
+        
+                    <form action="{% url 'login' %}" method="post" class="mt-4">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <input autofocus class="form-control" type="text" name="username" placeholder="Username">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="password" name="password" placeholder="Password">
+                        </div>
+                        <input class="btn btn-primary btn-block rounded-pill" type="submit" value="Login" id="btn">
+                    </form>
+                    <br>
+                    Don't have an account? <a href="{% url 'register' %}">Register here.</a>
+                </div>
+            </div>
+        </div>
+        
+    </body>
+</html>
+
+
+
+

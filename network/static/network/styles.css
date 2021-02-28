@@ -1,0 +1,134 @@
+body {
+    background-color: #f3f2ef;
+}
+
+.card-deck {
+    background-color: f3f2ef;
+    padding-top: 15px;
+}
+
+.col-lg-6 {
+    background-color: #f3f2ef;
+}
+
+#btn {
+    height:3em;
+}
+
+#editbtn {
+    display: inline; 
+    float: right;
+}
+
+.post_content {
+    white-space: pre-wrap;
+}
+
+.likebtn {
+    background-color: transparent; 
+    border: none; /* Remove borders */
+    padding: 0px 0px; 
+    cursor: pointer; /* Mouse pointer on hover */
+}
+
+.likebtn:focus {
+    border: none;
+    outline: none;
+}
+
+#posts {
+    background-color: white;
+    border-style:solid;
+    border-width:1.2px;
+    border-color:#DCDCDC;
+    margin-bottom: 6px;
+    border-radius: 8px;
+}
+
+.create_time {
+    color: Gray;
+    font-size: 13px;
+}
+
+#left_nav, #user-profile {
+    background-color: white;
+    border-style:solid;
+    border-width:1.2px;
+    border-color:#DCDCDC;
+    border-radius: 8px;
+}
+
+.nav-img {
+    height: 100px;
+    width: 100px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.nav-img img {
+    width: 100%;
+    height: auto;
+}
+
+#post-img {
+    padding: 0;
+}
+
+#post-img img {
+    width: 100%;
+    height: auto;
+}
+
+.profile-img {
+    height: 60px;
+    width: 60px;
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.profile-img img {
+    width: 100%;
+    height: auto;
+}
+
+.followform {
+    display: inline;
+    float: right;
+}
+
+.nav-link {
+    color:DimGrey;
+}
+
+#namelink {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 15px;
+    color: black;
+    text-align: center;
+}
+
+.item {
+    color: DimGrey;
+}
+
+.item:hover {
+    color: black;
+    background-color: Gainsboro;
+}
+
+.item_currently {
+    color: black;
+    font-weight: bold;
+    border-left: 3px solid;
+}
+
+.item_currently:hover {
+    color: black;
+    background-color: Gainsboro;
+}

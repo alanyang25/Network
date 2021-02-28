@@ -1,0 +1,123 @@
+{% extends "network/layout.html" %}
+{% load static %}
+
+{% block nav %}
+    <div class="sticky-top" id="left_nav">
+        <div class="nav-img">
+            <img class="rounded-circle" src="{{ user.profile.image.url}}">
+        </div>
+        {% if user.is_authenticated %}
+            <a href="{% url 'profile' user.username %}" id="namelink"><strong>{{ user.username }}</strong></a>
+        {% endif %}
+        <a class="nav-link item" href="{% url 'index' %}"><i class="fa fa-home" aria-hidden="true"></i>  All Posts</a>
+        {% if user.is_authenticated %}
+            <a class="nav-link item_currently" href="{% url 'following' %}"><i class="fa fa-eye" aria-hidden="true"></i>  Following</a>
+            <a class="nav-link item" href="{% url 'profile' user.username %}"><i class="fa fa-user" aria-hidden="true"></i>  Profile</a>
+            <a class="nav-link item" href="{% url 'logout' %}"><i class="fa fa-sign-out" aria-hidden="true"></i>  Log Out</a>
+        {% else %}
+            <a class="nav-link item" href="{% url 'login' %}"><i class="fa fa-sign-in" aria-hidden="true"></i>  Log In</a>
+            <a class="nav-link item" href="{% url 'register' %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>  Register</a>
+        {% endif %}
+    </div>
+{% endblock %} 
+
+{% block body %}
+    {% if user.is_authenticated %}
+    <div id="add-post">
+        <h4>Hey! {{ name }}</h4>
+        <form action="" method="POST" >
+            {% csrf_token %}
+            <div class="form-group" >
+                {{ form }}
+                <div class="text-right">
+                    <button class="btn btn-md btn-primary mt-1 px-3 rounded-pill" type="submit" current_user="submit">
+                        Post
+                    </button>
+               </div>
+            </div>
+        </form>
+    </div>
+    {% endif %}
+    <div id="all-post">
+        {% for post in page_obj %}
+            <div class="p-2" id="posts">
+                <div class="container">
+                    <div class="row" style="margin-bottom:10px;">
+                        <div class="col-sm-1" id="post-img">
+                            <img class="rounded-circle" src="{{ post.created_by.profile.image.url}}">
+                        </div>
+                        <div class="col-sm-11" style="padding: 0px 0px 0px 8px;">
+                            <a href="{% url 'profile' post.created_by %}"><strong>{{ post.created_by }}</strong></a>
+                            
+                            {% if post.created_by == current_user %}
+                                <button id="editbtn" class="btn btn-light btn-sm rounded-pill" data-postid="{{ post.id }}">
+                                    Edit
+                                </button>
+                            {% endif %}
+                            
+                            <p style="margin-bottom: 3px; line-height: 18px"><small class="post-date">{{ post.created_on }}</small></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="content{{ post.id }}" class="post_content">{{ post.content }}</div>
+                <hr>
+                {% if user.is_authenticated %}
+                    <button data-postid="{{ post.id }}" class="likebtn" style="display: inline-block">
+                        {% if user in post.liker.all %}
+                            <div style="color: red;">
+                                <i class="fa fa-heart"></i>
+                            </div>
+                        {% else %}
+                            <i class="far fa-heart"></i>
+                        {% endif %}
+                    </button>
+                {% else %}
+                    <i class="far fa-heart" style="display: inline-block"></i>    
+                {% endif %}
+                <span id="likes{{ post.id }}">{{ post.liker.count }}</span>
+            </div>
+        {% endfor %}
+
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
+                            <span aria-hidden="true">&lsaquo;</span>
+                        </a>
+                    </li>
+                {% endif %}
+                
+                {% for page in paginator.page_range %}
+                    {% if page == page_obj.number %}
+                        <li class="page-item active" aria-current="page">
+                            <a class="page-link" href="?page={{ page }}">{{ page }}<span class="sr-only"></span></a>
+                        </li>
+                    {% else %}
+                        <li class="page-item"><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">
+                            <span aria-hidden="true">&rsaquo;</span>
+                        </a>
+                    </li>    
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>    
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+    <script src="{% static 'network/post.js' %}"></script>
+{% endblock %}

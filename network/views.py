@@ -80,6 +80,10 @@ def register(request):
             return render(request, "network/register.html", {
                 "message": "Passwords must match."
             })
+        elif not username or not email or not password:
+            return render(request, "network/register.html", {
+                "message": "You must fill out all fields."
+            })
 
         # Attempt to create new user
         try:
@@ -103,7 +107,10 @@ def post(request):
         data = json.loads(request.body)
         post_id = data.get("post_id")
         post = Post.objects.get(id=post_id)
-
+        if not post:
+            return JsonResponse({
+                "error": "Post does not exist."
+            }, status=400)
         content = data.get("editedpost")
 
         clicked = data.get("clicked")
@@ -126,19 +133,32 @@ def post(request):
             "error": "PUT request required."
         }, status=400)
 
+@login_required(login_url="login")
 def profile(request, user_name):
     profile_user = User.objects.get(username = user_name)
     current_user = request.user
     
-    # Follow / Unfollow
-    if request.method == "POST":
-        if "unfollow" in request.POST:
-            UserFollowing.objects.get(user_id=current_user, following_user_id=profile_user).delete()
-        elif "follow" in request.POST:
-            f = UserFollowing(user_id=current_user, following_user_id=profile_user)
-            f.save()
+    # Upload profile pic
+    profile = request.user.profile
+    form = ProfileForm(instance=profile)
 
-        return HttpResponseRedirect(reverse("profile", args=(user_name, )))
+    # [others]Follow / Unfollow
+    if profile_user != current_user:
+        if request.method == "POST":
+            if "unfollow" in request.POST:
+                UserFollowing.objects.get(user_id=current_user, following_user_id=profile_user).delete()
+            elif "follow" in request.POST:
+                f = UserFollowing(user_id=current_user, following_user_id=profile_user)
+                f.save()
+
+            return HttpResponseRedirect(reverse("profile", args=(user_name, )))
+    # [self]Upload profile picture
+    else:
+        if request.method == 'POST':
+            form = ProfileForm(request.POST, request.FILES,instance=profile)
+            if form.is_valid():
+                form.save()
+                form = ProfileForm() # 清空 form
     
     is_following = False
     if profile_user.followers.filter(user_id=current_user, following_user_id=profile_user).exists():
@@ -157,9 +177,11 @@ def profile(request, user_name):
         "posts": posts,
         "is_following": is_following,
         "paginator": paginator,
-        "page_obj": page_obj
+        "page_obj": page_obj,
+        "form": form,
     })
 
+@login_required(login_url="login")
 def following(request):
     # Behave just as the “All Posts”(index) page does
     form = PostModelForm()

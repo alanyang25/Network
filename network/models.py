@@ -1,6 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-
+from django.core.exceptions import ValidationError
 
 class User(AbstractUser):
     pass
@@ -17,6 +17,11 @@ class UserFollowing(models.Model):
     following_user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="followers")
     follow_time = models.DateTimeField(auto_now_add=True)
 
+    # Block self-following
+    def clean(self):
+        if self.user_id == self.following_user_id:
+            raise ValidationError('You can not follow yourself.')
+            
     class Meta:
         unique_together = ['user_id', 'following_user_id']
 

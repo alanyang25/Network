@@ -1,16 +1,13 @@
 from django.db.models.signals import post_save
-from django.contrib.auth.models import AbstractUser
-from django.dispatch import receiver
-from .models import Profile
+from .models import *
 
-# create a profile for the user just registered
-# not working
-@receiver(post_save, sender=User)
-def create_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
+def customer_profile(sender, instance, created, **kwargs):
+	"""After a user is created, create its user profile"""
+	if created:
+		Profile.objects.create(
+			user=instance,
+			)
+		# print('Profile created!')
 
+post_save.connect(customer_profile, sender=User)
 
-@receiver(post_save, sender=User)
-def save_profile(sender, instance, **kwargs):
-    instance.profile.save()

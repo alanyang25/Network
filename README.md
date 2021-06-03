@@ -22,8 +22,8 @@ Network是線上課程"CS50’s Web Programming with Python and JavaScript"的�
 - [SQLite](https://www.sqlite.org/index.html)
 - 
 **測試**<br>
-目前包含4種測試：
-- TestUrls
-- TestForms
-- TestModels
-- TestViews
+主要分成4種測試：
+- TestUrls - 確保url對應到正確的view
+- TestForms - 確保能正確提交表單資料
+- TestModels - 確保資料庫的完整性
+- TestViews - 確保後端程式能提供正確的回應

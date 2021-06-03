@@ -20,7 +20,7 @@ Network是線上課程"CS50’s Web Programming with Python and JavaScript"的�
 
 **資料庫**
 - [SQLite](https://www.sqlite.org/index.html)
-- 
+
 **測試**<br>
 主要分成4種測試：
 - TestUrls - 確保url對應到正確的view

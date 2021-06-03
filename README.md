@@ -17,6 +17,13 @@ Network是線上課程"CS50’s Web Programming with Python and JavaScript"的�
 	* Python
 - 框架:
  	* [Django](https://www.djangoproject.com/)
- 
+
 **資料庫**
 - [SQLite](https://www.sqlite.org/index.html)
+- 
+**測試**
+目前包含4種測試：
+- TestUrls
+- TestForms
+- TestModels
+- TestViews

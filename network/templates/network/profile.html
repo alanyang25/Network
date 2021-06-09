@@ -44,7 +44,7 @@
             {% else %}
                 <div class="text-right followform">
                     <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-light btn-sm rounded-pill" data-toggle="modal" data-target="#exampleModal">
+                    <button type="button" id="editProfileBtn" class="btn btn-light btn-sm rounded-pill" data-toggle="modal" data-target="#exampleModal">
                         Settings
                     </button>
                     <!-- </a> -->
@@ -76,8 +76,8 @@
         {% endif %}
         <p><strong>{{ profile_user }}</strong></p>
         <div>
-            <span>{{ profile_user.following.count }} following</span>&nbsp&nbsp&nbsp&nbsp
-            <span>{{ profile_user.followers.count }} followers</span>
+            <span id="following">{{ profile_user.following.count }} following</span>&nbsp&nbsp&nbsp&nbsp
+            <span id="followers">{{ profile_user.followers.count }} followers</span>
         </div>
     </div>
     <div id="user-post">
@@ -89,7 +89,7 @@
                             <img class="rounded-circle" src="{{ post.created_by.profile.image.url }}">
                         </div>
                         <div class="col-sm-11" style="padding: 0px 0px 0px 8px;">
-                            <a href="{% url 'profile' post.created_by %}"><strong>{{ post.created_by }}</strong></a>
+                            <a href="{% url 'profile' post.created_by %}" class="post_username"><strong>{{ post.created_by }}</strong></a>
                             
                             {% if post.created_by == current_user %}
                                 <button id="editbtn" class="btn btn-light btn-sm rounded-pill" data-postid="{{ post.id }}">

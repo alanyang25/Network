@@ -47,7 +47,7 @@
                             <img class="rounded-circle" src="{{ post.created_by.profile.image.url}}">
                         </div>
                         <div class="col-sm-11" style="padding: 0px 0px 0px 8px;">
-                            <a href="{% url 'profile' post.created_by %}"><strong>{{ post.created_by }}</strong></a>
+                            <a href="{% url 'profile' post.created_by %}" class="post_username"><strong>{{ post.created_by }}</strong></a>
                             
                             {% if post.created_by == current_user %}
                                 <button id="editbtn" class="btn btn-light btn-sm rounded-pill" data-postid="{{ post.id }}">
